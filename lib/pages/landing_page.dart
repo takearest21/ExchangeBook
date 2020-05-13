@@ -19,23 +19,36 @@ class _LandingPageState extends State<LandingPage> {
     return SafeArea(
       child: Scaffold(
         drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
           child: ListView(
+            // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: <Widget>[
-              ListTile(
-                title: Text(
-                  'Item 1',
-                  style: TextStyle(color: Colors.black),
+              DrawerHeader(
+                child: Text('Login First'),
+                decoration: BoxDecoration(
+                  color: Colors.white10,
                 ),
+              ),
+              ListTile(
+                title: Text('Setting'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Discramer'),
+                onTap: () {
+                  Navigator.pop(context);
                 },
               ),
             ],
           ),
         ),
         appBar: AppBar(
+          iconTheme: new IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
@@ -43,7 +56,19 @@ class _LandingPageState extends State<LandingPage> {
             "Exchange Book",
             style: TextStyle(color: Colors.black),
           ),
-          centerTitle: true, // this is all you need
+          centerTitle: true,
+          actions: <Widget>[
+            Stack(children: <Widget>[
+              Positioned(
+                top:0,
+                child: Text("1"),
+              ),
+              Center(
+                  child: Icon(
+                Icons.send,
+              ))
+            ])
+          ], // this is all you need
         ),
         body: Center(
             // Center is a layout widget. It takes a single child and positions it
@@ -93,6 +118,8 @@ class GridViewState extends State {
 
   num aspectHeight = 1;
 
+  double shape = 1.0;
+
   List<String> gridItems = [
     'One',
     'Two',
@@ -116,18 +143,30 @@ class GridViewState extends State {
     'Twenty'
   ];
 
+  List<String> cateogryItems = [
+    'All',
+    'Story',
+    'Love',
+    'Computer',
+    'Sport',
+    'Healthy',
+    'Food',
+  ];
+
   changeMode() {
     if (countValue == 2) {
       setState(() {
         countValue = 1;
         aspectWidth = 3;
         aspectHeight = 1;
+        shape = 1.0;
       });
     } else {
       setState(() {
         countValue = 2;
         aspectWidth = 2;
         aspectHeight = 1;
+        shape = 5.0;
       });
     }
   }
@@ -156,31 +195,79 @@ class GridViewState extends State {
     return Scaffold(
         body: Column(children: [
       Container(
+          height: 40,
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: RaisedButton(
-            onPressed: () => changeMode(),
-            child: Text(' Change GridView Mode To ListView '),
-            textColor: Colors.white,
-            color: Colors.red,
-            padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: cateogryItems.length,
+                  separatorBuilder: (_, __) => SizedBox(width: 5),
+                  itemBuilder: (BuildContext context, int index) => SizedBox(
+                    width: double.infinity,
+                    child: Card(
+                      child: Center(child: Text('${cateogryItems[index]}')),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.15,
+                child: Center(
+                  child: RaisedButton(
+                    onPressed: () => changeMode(),
+                    textColor: Colors.black,
+                    color: Colors.white,
+                    child: Icon(
+                      Icons.grid_on,
+                      color: Colors.black,
+                      semanticLabel: 'Text to announce in accessibility modes',
+                    ),
+                  ),
+                ),
+              ),
+            ],
           )),
       Expanded(
         child: GridView.count(
           crossAxisCount: countValue,
-          childAspectRatio: (1.0),
+          childAspectRatio: 5,
           children: gridItems
               .map((data) => GestureDetector(
                   onTap: () {
                     getGridViewSelectedItem(context, data);
                   },
-                  child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      color: Colors.lightBlueAccent,
-                      child: Center(
-                          child: Text(data,
-                              style:
-                                  TextStyle(fontSize: 22, color: Colors.white),
-                              textAlign: TextAlign.center)))))
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                "My love is you",
+                              ),
+                              Text("2020-01-01")
+                            ],
+                          ),
+                          Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Icon(
+                                Icons.info_outline,
+                                color: Colors.lightBlueAccent,
+                              ),
+                              Icon(Icons.arrow_forward_ios),
+                            ],
+                          ),
+                        ],
+                      ))))
               .toList(),
         ),
       ),
