@@ -2,6 +2,8 @@ import 'package:exchangeBook/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import './pages/home_page.dart';
 import './pages/login_page.dart';
+import './pages/splash_page.dart';
+import './pages/landing_page.dart';
 void main() {
   runApp(MyApp());
 }
@@ -23,15 +25,13 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(title:"Exchange Book App"),
       routes: {
         '/login': (BuildContext context) => LoginPage(),
         '/register': (BuildContext context) => RegisterPage(),
+        '/splash': (BuildContext context) => SplashPage(),
+        '/landing': (BuildContext context) => LandingPage(),
       },
     );
   }

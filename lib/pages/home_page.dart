@@ -45,13 +45,23 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 25,),
-               FlatButton(
+              FlatButton(
                 onPressed: () {
                   /*...*/
                  Navigator.pushNamed(context, '/register');
                 },
                 child: Text(
                   "Register",
+                ),
+              ),
+              SizedBox(height: 25,),
+              FlatButton(
+                onPressed: () {
+                  /*...*/
+                 Navigator.pushNamed(context, '/landing');
+                },
+                child: Text(
+                  "Skip",
                 ),
               ),
             ],
