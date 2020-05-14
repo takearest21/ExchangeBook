@@ -1,3 +1,4 @@
+import 'package:exchangeBook/pages/direct_message_page.dart';
 import 'package:exchangeBook/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import './pages/home_page.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
         '/register': (BuildContext context) => RegisterPage(),
         '/splash': (BuildContext context) => SplashPage(),
         '/landing': (BuildContext context) => LandingPage(),
+        '/dm': (BuildContext context) => DirectMessagePage(),
+
       },
     );
   }

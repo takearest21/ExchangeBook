@@ -90,16 +90,21 @@ class _LandingPageState extends State<LandingPage> {
                 child: Text("1"),
               ),
               Center(
-                  child: Icon(
-                Icons.send,
-              ))
+                  child: 
+                  IconButton(
+            icon: Icon(Icons.send),
+            color: Colors.black,
+            onPressed: () {
+               Navigator.pushNamed(context, '/dm');
+            },
+          ),)
             ])
           ], // this is all you need
         ),
         body: Column(
           children: <Widget>[
             Container(
-                height: 0,
+                height: 40,
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,7 +148,7 @@ class _LandingPageState extends State<LandingPage> {
                       _retrieveData();
                       //加载时显示loading
                       return Container(
-                        color: Colors.red,
+                        color: Colors.grey,
                         padding: const EdgeInsets.all(16.0),
                         alignment: Alignment.center,
                         child: SizedBox(
@@ -154,7 +159,7 @@ class _LandingPageState extends State<LandingPage> {
                     } else {
                       //已经加载了100条数据，不再获取数据。
                       return Container(
-                          color: Colors.red,
+                          color: Colors.grey,
                           alignment: Alignment.center,
                           padding: EdgeInsets.all(16.0),
                           child: Text(
@@ -167,9 +172,7 @@ class _LandingPageState extends State<LandingPage> {
                   return Card(
                       child: Stack(
                         children: <Widget>[
-                          Positioned(
-                            top: 0,
-                            child: Image.asset('images/app_icon.png')),
+                          
                           ListTile(
                                 onTap: (){
                                 },
