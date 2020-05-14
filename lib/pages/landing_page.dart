@@ -206,10 +206,10 @@ class GridViewState extends State {
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   scrollDirection: Axis.horizontal,
-                  itemCount: cateogryItems.length,
+                  itemCount: this.cateogryItems.length,
                   separatorBuilder: (_, __) => SizedBox(width: 5),
                   itemBuilder: (BuildContext context, int index) => SizedBox(
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width*0.2,
                     child: Card(
                       child: Center(child: Text('${cateogryItems[index]}')),
                     ),
@@ -232,7 +232,8 @@ class GridViewState extends State {
                 ),
               ),
             ],
-          )),
+          )
+      ),
       Expanded(
         child: GridView.count(
           crossAxisCount: countValue,
