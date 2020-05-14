@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -6,6 +7,25 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  static const loadingTag = "##loading##"; //表尾标记
+  var _words = <String>[loadingTag];
+
+  @override
+  void initState() {
+    super.initState();
+    _retrieveData();
+  }
+
+  List<String> cateogryItems = [
+    '#All',
+    '#Story',
+    '#Love',
+    '#Computer',
+    '#Sport',
+    '#Healthy',
+    '#Food',
+  ];
+
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -16,6 +36,12 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+     var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+
     return SafeArea(
       child: Scaffold(
         drawer: Drawer(
@@ -60,7 +86,7 @@ class _LandingPageState extends State<LandingPage> {
           actions: <Widget>[
             Stack(children: <Widget>[
               Positioned(
-                top:0,
+                top: 0,
                 child: Text("1"),
               ),
               Center(
@@ -70,10 +96,93 @@ class _LandingPageState extends State<LandingPage> {
             ])
           ], // this is all you need
         ),
-        body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: GridWidget()),
+        body: Column(
+          children: <Widget>[
+            Container(
+                height: 0,
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: this.cateogryItems.length,
+                        separatorBuilder: (_, __) => SizedBox(width: 5),
+                        itemBuilder: (BuildContext context, int index) =>
+                            SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: Card(
+                            child:
+                                Center(child: Text('${cateogryItems[index]}')),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+            Expanded(
+              child: Center(
+                  // Center is a layout widget. It takes a single child and positions it
+                  // in the middle of the parent.
+                  child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                   childAspectRatio: (itemWidth / itemHeight),
+                    crossAxisCount: 3, //每行三列
+                    ),
+                itemCount: _words.length,
+                itemBuilder: (context, index) {
+                  //如果到了表尾
+                  if (_words[index] == loadingTag) {
+                    //不足100条，继续获取数据
+                    if (_words.length - 1 < 100) {
+                      //获取数据
+                      _retrieveData();
+                      //加载时显示loading
+                      return Container(
+                        color: Colors.red,
+                        padding: const EdgeInsets.all(16.0),
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      );
+                    } else {
+                      //已经加载了100条数据，不再获取数据。
+                      return Container(
+                          color: Colors.red,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            "没有更多了",
+                            style: TextStyle(color: Colors.grey),
+                          ));
+                    }
+                  }
+                  //显示单词列表项
+                  return Card(
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            top: 0,
+                            child: Image.asset('images/app_icon.png')),
+                          ListTile(
+                                onTap: (){
+                                },
+                            title: Text(_words[index]),
+                            subtitle: Text("test"),
+                          )
+                        ],
+                      ));
+                },
+              )),
+            )
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -105,173 +214,16 @@ class _LandingPageState extends State<LandingPage> {
       ),
     );
   }
-}
 
-class GridWidget extends StatefulWidget {
-  GridViewState createState() => GridViewState();
-}
-
-class GridViewState extends State {
-  num countValue = 2;
-
-  num aspectWidth = 2;
-
-  num aspectHeight = 1;
-
-  double shape = 1.0;
-
-  List<String> gridItems = [
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten',
-    'Eleven',
-    'Twelve',
-    'Thirteen',
-    'Fourteen',
-    'Fifteen',
-    'Sixteen',
-    'Seventeen',
-    'Eighteen',
-    'Nineteen',
-    'Twenty'
-  ];
-
-  List<String> cateogryItems = [
-    'All',
-    'Story',
-    'Love',
-    'Computer',
-    'Sport',
-    'Healthy',
-    'Food',
-  ];
-
-  changeMode() {
-    if (countValue == 2) {
+  void _retrieveData() {
+    Future.delayed(Duration(seconds: 2)).then((e) {
       setState(() {
-        countValue = 1;
-        aspectWidth = 3;
-        aspectHeight = 1;
-        shape = 1.0;
+        //重新构建列表
+        _words.insertAll(
+            _words.length - 1,
+            //每次生成20个单词
+            generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
       });
-    } else {
-      setState(() {
-        countValue = 2;
-        aspectWidth = 2;
-        aspectHeight = 1;
-        shape = 5.0;
-      });
-    }
-  }
-
-  getGridViewSelectedItem(BuildContext context, String gridItem) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(gridItem),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(children: [
-      Container(
-          height: 40,
-          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: this.cateogryItems.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 5),
-                  itemBuilder: (BuildContext context, int index) => SizedBox(
-                    width: MediaQuery.of(context).size.width*0.2,
-                    child: Card(
-                      child: Center(child: Text('${cateogryItems[index]}')),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.15,
-                child: Center(
-                  child: RaisedButton(
-                    onPressed: () => changeMode(),
-                    textColor: Colors.black,
-                    color: Colors.white,
-                    child: Icon(
-                      Icons.grid_on,
-                      color: Colors.black,
-                      semanticLabel: 'Text to announce in accessibility modes',
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )
-      ),
-      Expanded(
-        child: GridView.count(
-          crossAxisCount: countValue,
-          childAspectRatio: 5,
-          children: gridItems
-              .map((data) => GestureDetector(
-                  onTap: () {
-                    getGridViewSelectedItem(context, data);
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Text(
-                                "My love is you",
-                              ),
-                              Text("2020-01-01")
-                            ],
-                          ),
-                          Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Icon(
-                                Icons.info_outline,
-                                color: Colors.lightBlueAccent,
-                              ),
-                              Icon(Icons.arrow_forward_ios),
-                            ],
-                          ),
-                        ],
-                      ))))
-              .toList(),
-        ),
-      ),
-    ]));
+    });
   }
 }
