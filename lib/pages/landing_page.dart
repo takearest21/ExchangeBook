@@ -36,7 +36,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-     var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -90,14 +90,14 @@ class _LandingPageState extends State<LandingPage> {
                 child: Text("1"),
               ),
               Center(
-                  child: 
-                  IconButton(
-            icon: Icon(Icons.send),
-            color: Colors.black,
-            onPressed: () {
-               Navigator.pushNamed(context, '/dm');
-            },
-          ),)
+                child: IconButton(
+                  icon: Icon(Icons.send),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/dm');
+                  },
+                ),
+              )
             ])
           ], // this is all you need
         ),
@@ -135,9 +135,9 @@ class _LandingPageState extends State<LandingPage> {
                   // in the middle of the parent.
                   child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                   childAspectRatio: (itemWidth / itemHeight),
-                    crossAxisCount: 3, //每行三列
-                    ),
+                  childAspectRatio: (itemWidth / itemHeight),
+                  crossAxisCount: 3, //每行三列
+                ),
                 itemCount: _words.length,
                 itemBuilder: (context, index) {
                   //如果到了表尾
@@ -171,16 +171,19 @@ class _LandingPageState extends State<LandingPage> {
                   //显示单词列表项
                   return Card(
                       child: Stack(
-                        children: <Widget>[
-                          
-                          ListTile(
-                                onTap: (){
-                                },
-                            title: Text(_words[index]),
-                            subtitle: Text("test"),
-                          )
-                        ],
-                      ));
+                    children: <Widget>[
+                      Positioned(
+                        bottom:10,
+                        right: 10,
+                        child: Icon(Icons.favorite),
+                      ),
+                      ListTile(
+                        onTap: () {},
+                        title: Text(_words[index]),
+                        subtitle: Text("test"),
+                      )
+                    ],
+                  ));
                 },
               )),
             )
