@@ -1,3 +1,4 @@
+import 'package:exchangeBook/pages/chat_room_page.dart';
 import 'package:exchangeBook/pages/direct_message_page.dart';
 import 'package:exchangeBook/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
         '/splash': (BuildContext context) => SplashPage(),
         '/landing': (BuildContext context) => LandingPage(),
         '/dm': (BuildContext context) => DirectMessagePage(),
+        '/dm': (BuildContext context) => DirectMessagePage(),
+        '/chatroom': (BuildContext context) => ChatRoomPage(),
 
       },
     );

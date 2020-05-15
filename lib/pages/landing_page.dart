@@ -86,9 +86,15 @@ class _LandingPageState extends State<LandingPage> {
           actions: <Widget>[
             Stack(children: <Widget>[
               Positioned(
-                top: 0,
-                child: Text("1"),
-              ),
+                  top: 8,
+                  right: 5,
+                  child: Container(
+                   
+                    height: 20,
+                    width: 20,
+                    child: CircleAvatar(
+                    backgroundColor: Colors.red,child: Text("123",style: TextStyle(fontSize:10,color: Colors.white),)),
+                  )),
               Center(
                 child: IconButton(
                   icon: Icon(Icons.send),
@@ -173,7 +179,22 @@ class _LandingPageState extends State<LandingPage> {
                       child: Stack(
                     children: <Widget>[
                       Positioned(
-                        bottom:10,
+                          top: 60,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                              color: Colors.black,
+                              child: Column(
+                                children: <Widget>[
+                                  Image.network(
+                                    'https://placeimg.com/640/480/any',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ],
+                              ))),
+                      Positioned(
+                        bottom: 10,
                         right: 10,
                         child: Icon(Icons.favorite),
                       ),
