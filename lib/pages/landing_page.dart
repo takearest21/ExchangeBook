@@ -79,7 +79,7 @@ class _LandingPageState extends State<LandingPage> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text(
-            "Exchange Book",
+            "Book Swap",
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -196,10 +196,6 @@ class _LandingPageState extends State<LandingPage> {
               title: Text(''),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text(''),
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.bookmark),
               title: Text(''),
             ),
@@ -246,10 +242,10 @@ class BookCardLayout extends StatelessWidget {
           left: 0,
           right: 0,
            child: Container(
-            height: 320,
+            height: 300,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(29),
+              borderRadius:  BorderRadius.only(bottomRight: Radius.circular(29),),
               boxShadow: [
                 BoxShadow(
                   offset: Offset(0, 10),
@@ -260,27 +256,37 @@ class BookCardLayout extends StatelessWidget {
             ),
           ),
         ),
-        Image.asset("assets/images/img1.jpg",width: 100,),
+        Image.asset("assets/images/img8.jpg",width: 100,),
         Positioned(
           top:150,
           left:15,
-          child: Text("藝利很重要"),
+          child: Text("動物農莊"),
         ),
         Positioned(
           top:180,
-          left:15,
-          child: Wrap(children: <Widget>[
-             Text("這是一本關於藝術重要性的書..."),
-          ],)
+          child: Container(
+            child: 
+             Text("《動物農場》借動物的遭際\n諷刺獨裁政治的腐敗，揭露\n極權統治的殘暴，是一部警\n世寓言。"),
+         
+            )
         ),
         Positioned(
           top:50,
           right: 10,
           child: Column(
             children: <Widget>[
-              IconButton(icon: Icon(
+              InkWell(
+                onTap: (){
+                  print("click");
+                },
+                child: IconButton(
+                  onPressed: (){
+                    
+                  },
+                  icon: Icon(
                 Icons.favorite_border
               ),)
+              )
             ],
           ),
         ),
@@ -291,11 +297,10 @@ class BookCardLayout extends StatelessWidget {
             height: 50,
             width:90,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(29),),
-              color: Colors.red,
+              color: Colors.black,
             ),
             child: Center(
-              child: Text("DM"),
+              child: Text("DM", style: TextStyle(fontSize: 20, color: Colors.white),),
             )
           ),
         ),
@@ -307,7 +312,7 @@ class BookCardLayout extends StatelessWidget {
             width:90,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(29),),
-              color: Colors.blue,
+              color: Colors.yellow,
             ),
           ),
         )
@@ -319,16 +324,6 @@ class BookCardLayout extends StatelessWidget {
 }
 
 class BookCard extends StatelessWidget {
-  const BookCard({
-    Key key,
-    @required List<String> words,
-    @required int index,
-  })  : _words = words,
-        index = index,
-        super(key: key);
-
-  final List<String> _words;
-  final int index;
   @override
   Widget build(BuildContext context) {
     return 
@@ -346,7 +341,6 @@ class BookCard extends StatelessWidget {
 
                 width: 10,
                 decoration: BoxDecoration(
-                  
                   boxShadow: [
                     BoxShadow(
                       color: Colors.blue,
@@ -362,45 +356,5 @@ class BookCard extends StatelessWidget {
           ],
         ),
       );
-    
-    
-    
-    
-    
-    
-    Card(
-      color: Colors.red,
-      child:
-        Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              right: 0,
-               child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/app_icon.png'),
-                        fit: BoxFit.contain)),
-              ),
-            ),
-            Positioned(
-              child: ListTile(
-                onTap: () {},
-                title: Text(_words[this.index]),
-                subtitle: Text("test"),
-              ),
-            ),
-           
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: Icon(Icons.favorite),
-            ),
-          ],
-        )
-    );
   }
 }

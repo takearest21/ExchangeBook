@@ -17,6 +17,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: Colors.white,
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.

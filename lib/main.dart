@@ -1,8 +1,7 @@
-import 'package:exchangeBook/pages/chat_room_page.dart';
-import 'package:exchangeBook/pages/direct_message_page.dart';
-import 'package:exchangeBook/pages/register_page.dart';
+import 'package:bookSwap/pages/chat_room_page.dart';
+import 'package:bookSwap/pages/direct_message_page.dart';
+import 'package:bookSwap/pages/register_page.dart';
 import 'package:flutter/material.dart';
-import './pages/home_page.dart';
 import './pages/login_page.dart';
 import './pages/splash_page.dart';
 import './pages/landing_page.dart';
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Book Swap',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -34,7 +33,6 @@ class MyApp extends StatelessWidget {
         '/register': (BuildContext context) => RegisterPage(),
         '/splash': (BuildContext context) => SplashPage(),
         '/landing': (BuildContext context) => LandingPage(),
-        '/dm': (BuildContext context) => DirectMessagePage(),
         '/dm': (BuildContext context) => DirectMessagePage(),
         '/chatroom': (BuildContext context) => ChatRoomPage(),
 
