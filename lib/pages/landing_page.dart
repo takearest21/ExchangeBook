@@ -89,11 +89,14 @@ class _LandingPageState extends State<LandingPage> {
                   top: 8,
                   right: 5,
                   child: Container(
-                   
                     height: 20,
                     width: 20,
                     child: CircleAvatar(
-                    backgroundColor: Colors.red,child: Text("123",style: TextStyle(fontSize:10,color: Colors.white),)),
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          "123",
+                          style: TextStyle(fontSize: 10, color: Colors.white),
+                        )),
                   )),
               Center(
                 child: IconButton(
@@ -104,7 +107,7 @@ class _LandingPageState extends State<LandingPage> {
                   },
                 ),
               )
-            ])
+            ])                                   
           ], // this is all you need
         ),
         body: Column(
@@ -134,15 +137,14 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     ),
                   ],
-                )),
+                )),             
             Expanded(
-              child: Center(
-                  // Center is a layout widget. It takes a single child and positions it
-                  // in the middle of the parent.
-                  child: GridView.builder(
+              child: 
+              Container(
+                child:  GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: (itemWidth / itemHeight),
-                  crossAxisCount: 3, //每行三列
+                  crossAxisCount: 2, //每行三列
                 ),
                 itemCount: _words.length,
                 itemBuilder: (context, index) {
@@ -175,38 +177,11 @@ class _LandingPageState extends State<LandingPage> {
                     }
                   }
                   //显示单词列表项
-                  return Card(
-                      child: Stack(
-                    children: <Widget>[
-                      Positioned(
-                          top: 60,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: Container(
-                              color: Colors.black,
-                              child: Column(
-                                children: <Widget>[
-                                  Image.network(
-                                    'https://placeimg.com/640/480/any',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ],
-                              ))),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: Icon(Icons.favorite),
-                      ),
-                      ListTile(
-                        onTap: () {},
-                        title: Text(_words[index]),
-                        subtitle: Text("test"),
-                      )
-                    ],
-                  ));
+                  return BookCardLayout();
                 },
-              )),
+              ),
+              )
+               
             )
           ],
         ),
@@ -252,5 +227,180 @@ class _LandingPageState extends State<LandingPage> {
             generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
       });
     });
+  }
+}
+
+class BookCardLayout extends StatelessWidget {
+  const BookCardLayout({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+    margin: EdgeInsets.all(15),
+    child: Stack(
+      children: <Widget>[
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+           child: Container(
+            height: 320,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(29),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 10),
+                  blurRadius: 33,
+                  color: Colors.grey
+                )
+              ]
+            ),
+          ),
+        ),
+        Image.asset("assets/images/img1.jpg",width: 100,),
+        Positioned(
+          top:150,
+          left:15,
+          child: Text("藝利很重要"),
+        ),
+        Positioned(
+          top:180,
+          left:15,
+          child: Wrap(children: <Widget>[
+             Text("這是一本關於藝術重要性的書..."),
+          ],)
+        ),
+        Positioned(
+          top:50,
+          right: 10,
+          child: Column(
+            children: <Widget>[
+              IconButton(icon: Icon(
+                Icons.favorite_border
+              ),)
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: Container(
+            height: 50,
+            width:90,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(29),),
+              color: Colors.red,
+            ),
+            child: Center(
+              child: Text("DM"),
+            )
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            height: 50,
+            width:90,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(29),),
+              color: Colors.blue,
+            ),
+          ),
+        )
+      ],
+      
+    ),
+                );
+  }
+}
+
+class BookCard extends StatelessWidget {
+  const BookCard({
+    Key key,
+    @required List<String> words,
+    @required int index,
+  })  : _words = words,
+        index = index,
+        super(key: key);
+
+  final List<String> _words;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return 
+      Container(
+        margin: EdgeInsets.all(15),
+        color: Colors.pink,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+
+                width: 10,
+                decoration: BoxDecoration(
+                  
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue,
+                      blurRadius: 10,
+                      offset: Offset(10,19)
+                    )
+                  ]
+                ),
+              ),
+            ),
+            Image.asset("assets/images/app_icon.png"),
+           
+          ],
+        ),
+      );
+    
+    
+    
+    
+    
+    
+    Card(
+      color: Colors.red,
+      child:
+        Stack(
+          children: <Widget>[
+            Positioned(
+              top: 0,
+              right: 0,
+               child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/app_icon.png'),
+                        fit: BoxFit.contain)),
+              ),
+            ),
+            Positioned(
+              child: ListTile(
+                onTap: () {},
+                title: Text(_words[this.index]),
+                subtitle: Text("test"),
+              ),
+            ),
+           
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: Icon(Icons.favorite),
+            ),
+          ],
+        )
+    );
   }
 }
