@@ -1,5 +1,8 @@
+import 'package:bookSwap/pages/book_details_page.dart';
 import 'package:bookSwap/pages/chat_room_page.dart';
+import 'package:bookSwap/pages/dash_board_screen.dart';
 import 'package:bookSwap/pages/direct_message_page.dart';
+import 'package:bookSwap/pages/my_book_page.dart';
 import 'package:bookSwap/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import './pages/login_page.dart';
@@ -14,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Book Swap',
       theme: ThemeData(
         // This is the theme of your application.
@@ -27,15 +31,17 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(),
+      home: DashBoardScreen(),
       routes: {
+        '/dashBoard': (BuildContext context) => DashBoardScreen(),
         '/login': (BuildContext context) => LoginPage(),
         '/register': (BuildContext context) => RegisterPage(),
         '/splash': (BuildContext context) => SplashPage(),
         '/landing': (BuildContext context) => LandingPage(),
         '/dm': (BuildContext context) => DirectMessagePage(),
         '/chatroom': (BuildContext context) => ChatRoomPage(),
-
+        '/detail': (BuildContext context) => BookDetailsPage(),
+        '/myBook':(BuildContext context)=> MyBookPage(),
       },
     );
   }

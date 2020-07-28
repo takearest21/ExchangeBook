@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:bookSwap/constants.dart';
+import '../models/testing_data.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -7,8 +9,9 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  static const loadingTag = "##loading##"; //表尾标记
+  static const loadingTag = "##loading##"; 
   var _words = <String>[loadingTag];
+  
 
   @override
   void initState() {
@@ -34,6 +37,10 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
+  void addToFavouriteList(){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -44,72 +51,6 @@ class _LandingPageState extends State<LandingPage> {
 
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text('Login First'),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                ),
-              ),
-              ListTile(
-                title: Text('Setting'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('Discramer'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
-        appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(
-            "Book Swap",
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            Stack(children: <Widget>[
-              Positioned(
-                  top: 8,
-                  right: 5,
-                  child: Container(
-                    height: 20,
-                    width: 20,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        child: Text(
-                          "123",
-                          style: TextStyle(fontSize: 10, color: Colors.white),
-                        )),
-                  )),
-              Center(
-                child: IconButton(
-                  icon: Icon(Icons.send),
-                  color: Colors.black,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/dm');
-                  },
-                ),
-              )
-            ])                                   
-          ], // this is all you need
-        ),
         body: Column(
           children: <Widget>[
             Container(
@@ -146,12 +87,12 @@ class _LandingPageState extends State<LandingPage> {
                   childAspectRatio: (itemWidth / itemHeight),
                   crossAxisCount: 2, //每行三列
                 ),
-                itemCount: _words.length,
+                itemCount: TESTING_DATA.length,
                 itemBuilder: (context, index) {
                   //如果到了表尾
                   if (_words[index] == loadingTag) {
                     //不足100条，继续获取数据
-                    if (_words.length - 1 < 100) {
+                    if (_words.length - 1 < 5) {
                       //获取数据
                       _retrieveData();
                       //加载时显示loading
@@ -185,42 +126,18 @@ class _LandingPageState extends State<LandingPage> {
             )
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              title: Text(''),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text(''),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark),
-              title: Text(''),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
-              title: Text(''),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-        ),
       ),
     );
   }
 
   void _retrieveData() {
-    Future.delayed(Duration(seconds: 2)).then((e) {
+    Future.delayed(Duration(seconds: 0)).then((e) {
       setState(() {
         //重新构建列表
         _words.insertAll(
             _words.length - 1,
             //每次生成20个单词
-            generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
+            generateWordPairs().take(10).map((e) => e.asPascalCase).toList());
       });
     });
   }
@@ -250,13 +167,13 @@ class BookCardLayout extends StatelessWidget {
                 BoxShadow(
                   offset: Offset(0, 10),
                   blurRadius: 33,
-                  color: Colors.grey
+                  color: Colors.white
                 )
               ]
             ),
           ),
         ),
-        Image.asset("assets/images/img8.jpg",width: 100,),
+        Image.asset("assets/images/img2.jpg",width: 100,),
         Positioned(
           top:150,
           left:15,
@@ -297,10 +214,11 @@ class BookCardLayout extends StatelessWidget {
             height: 50,
             width:90,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(29),),
               color: Colors.black,
             ),
             child: Center(
-              child: Text("DM", style: TextStyle(fontSize: 20, color: Colors.white),),
+              child: Text("DM", style: TextStyle(fontSize: 15, color: Colors.white),),
             )
           ),
         ),
@@ -314,6 +232,9 @@ class BookCardLayout extends StatelessWidget {
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(29),),
               color: Colors.yellow,
             ),
+            child: Center(
+              child: Text("Detail", style: TextStyle(fontSize: 15, color: Colors.black),),
+            )
           ),
         )
       ],
